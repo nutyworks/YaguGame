@@ -19,7 +19,27 @@ class ReadyActivity : AppCompatActivity() {
 
         YaguGame.init()
         YaguGame.playerSize = intent.getIntExtra(PLAYER_SIZE, -1)
+
+        if (YaguGame.playerSize == 1) {
+
+            YaguGame.addPlayer("컴퓨터", generateRandomNumber())
+            val gameIntent = Intent(this, GameActivity::class.java)
+            startActivity(gameIntent)
+        }
         description.text = getString(R.string.input_player_info).format(0)
+    }
+
+    fun generateRandomNumber(): String {
+        var str = ""
+        val num = (0..9).toMutableList()
+        for (i in 1..4) {
+            val selected = num.random()
+            num.remove(selected)
+
+            str += selected.toString()
+        }
+
+        return str
     }
 
     @Suppress("UNUSED_PARAMETER")

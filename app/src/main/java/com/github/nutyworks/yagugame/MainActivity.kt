@@ -10,10 +10,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        player_size.minValue = 2
-        player_size.maxValue = 8
+        player_size.minValue = 1
+        player_size.maxValue = 35
     }
-
 
     @Suppress("UNUSED_PARAMETER")
     fun onStartClicked(view: View) {
