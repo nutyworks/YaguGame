@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
         player_size.maxValue = 8
     }
 
+
+    @Suppress("UNUSED_PARAMETER")
     fun onStartClicked(view: View) {
 
         val readyIntent = Intent(this, ReadyActivity::class.java).apply {
