@@ -11,6 +11,8 @@ class ReadyActivity : AppCompatActivity() {
 
     companion object {
         const val PLAYER_SIZE = "com.github.nutyworks.yagugame.PLAYER_SIZE"
+        const val ALLOW_DUPLICATE = "com.github.nutyworks.yagugame.ALLOW_DUPLICATE"
+        const val NUMBER_LENGTH = "com.github.nutyworks.yagugame.NUMBER_LENGTH"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,35 +20,28 @@ class ReadyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_ready)
 
         YaguGame.init()
-        YaguGame.playerSize = intent.getIntExtra(PLAYER_SIZE, -1)
+        YaguGame.playerSize = intent.getIntExtra(PLAYER_SIZE, 1)
+        YaguGame.allowDuplicate = intent.getBooleanExtra(ALLOW_DUPLICATE, false)
+        YaguGame.numberLength = intent.getIntExtra(NUMBER_LENGTH, 1)
+
+        println(intent.getBooleanExtra(ALLOW_DUPLICATE, false))
 
         if (YaguGame.playerSize == 1) {
 
-            YaguGame.addPlayer("컴퓨터", generateRandomNumber())
+            YaguGame.addPlayer("컴퓨터", YaguGame.generateRandomNumber())
             val gameIntent = Intent(this, GameActivity::class.java)
             startActivity(gameIntent)
         }
         description.text = getString(R.string.input_player_info).format(0)
     }
 
-    fun generateRandomNumber(): String {
-        var str = ""
-        val num = (0..9).toMutableList()
-        for (i in 1..4) {
-            val selected = num.random()
-            num.remove(selected)
-
-            str += selected.toString()
-        }
-
-        return str
-    }
 
     @Suppress("UNUSED_PARAMETER")
     fun onNumberConfirm(view: View) {
 
-        val isValidNumber = number_input.text.toString().length == 4
-                && number_input.text.toString().toByteArray().distinct().size == 4
+        val isValidNumber = number_input.text.toString().length == YaguGame.numberLength
+                && (YaguGame.allowDuplicate || number_input.text.toString().toByteArray()
+            .distinct().size == YaguGame.numberLength)
 
         if (isValidNumber) {
 

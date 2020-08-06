@@ -5,12 +5,30 @@ object YaguGame {
     val players = ArrayList<Player>()
     var status = Status.GUESSING
     var turn = 0
+    var numberLength = 0
+    var allowDuplicate = false
+
+    fun generateRandomNumber(): String {
+        var str = ""
+        val num = (0..9).toMutableList()
+        for (i in 1..numberLength) {
+            val selected = num.random()
+            if (!allowDuplicate)
+                num.remove(selected)
+
+            str += selected.toString()
+        }
+
+        return str
+    }
 
     fun init() {
         playerSize = 0
         players.clear()
         status = Status.GUESSING
         turn = 0
+        numberLength = 0
+        allowDuplicate = true
     }
 
     fun nextTurn(): Int {
@@ -51,11 +69,11 @@ object YaguGame {
 
                 var strikes = 0
 
-                for (i in 0..3) {
+                for (i in 0 until numberLength) {
                     strikes += if (answer[i] == guess[i]) 1 else 0
                 }
 
-                if (strikes == 4) isEliminated = true
+                if (strikes == numberLength) isEliminated = true
 
                 return strikes
             }
@@ -63,8 +81,10 @@ object YaguGame {
             fun getBalls(): Int {
                 var balls = 0
 
-                for (i in 0..3) {
+                for (i in 0 until numberLength) {
                     balls += if (answer.contains(guess[i])) 1 else 0
+
+//                    println("$i $answer ${guess[i]} ${answer.contains(guess[i])} $balls")
                 }
 
                 return balls - getStrikes()

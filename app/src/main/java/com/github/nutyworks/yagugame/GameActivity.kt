@@ -33,7 +33,7 @@ class GameActivity : AppCompatActivity() {
                 view.guessing_number.text = guess.guess
                 view.strikes_text.text = guess.getStrikes().toString()
                 view.balls_text.text = guess.getBalls().toString()
-                println("guess ${guess.guess} ${guess.getAnswer()}${guess.getStrikes()} ${guess.getBalls()}")
+//                println("guess ${guess.guess} ${guess.getAnswer()}${guess.getStrikes()} ${guess.getBalls()}")
             }
             .setItems(YaguGame.getCurrentPlayer().history)
             .into(findViewById(R.id.yagu_history_wrapper))
@@ -43,15 +43,19 @@ class GameActivity : AppCompatActivity() {
     @Suppress("UNUSED_PARAMETER")
     fun onGuessOrConfirm(view: View) {
 
-        val isValidNumber = guess_number.text.toString().length == 4
-                && guess_number.text.toString().toByteArray().distinct().size == 4
+        val isValidNumber = guess_number.text.toString().length == YaguGame.numberLength
+                && (YaguGame.allowDuplicate || guess_number.text.toString().toByteArray()
+            .distinct().size == YaguGame.numberLength)
 
         if (isValidNumber && YaguGame.status == YaguGame.Status.GUESSING) {
             YaguGame.getCurrentPlayer().addHistory(guess_number.text.toString())
 
-            guess_description.text = "넘어가려면 확인 버튼을 누르세요."
+            guess_description.text = "넘어가려면 다음 버튼을 누르세요."
 
             itemHistoryEditor.changeAll(YaguGame.getCurrentPlayer().history)
+
+            guess_number.visibility = View.GONE
+            check_button.text = getString(R.string.next)
 
             YaguGame.status = YaguGame.Status.CHECK
         } else if (YaguGame.status == YaguGame.Status.CHECK) {
@@ -64,6 +68,9 @@ class GameActivity : AppCompatActivity() {
                 guess_number.setText("")
                 itemHistoryEditor.changeAll(YaguGame.getCurrentPlayer().history)
                 YaguGame.status = YaguGame.Status.GUESSING
+
+                guess_number.visibility = View.VISIBLE
+                check_button.text = getString(R.string.submit)
             }
         } else {
             Toast.makeText(this, "다시 입력하세요", Toast.LENGTH_SHORT).show()

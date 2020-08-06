@@ -69,11 +69,11 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/number_example"
                 android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLength="4" />
+                android:inputType="number" />
 
         </LinearLayout>
 
+        <!--suppress AndroidMissingOnClickHandler -->
         <Button
             android:id="@+id/number_confirm"
             android:layout_width="wrap_content"

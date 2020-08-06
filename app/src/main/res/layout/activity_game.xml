@@ -20,25 +20,20 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/yagu_history_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/guess_number_wrapper"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guess_description">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/guess_number_wrapper"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
     <LinearLayout
         android:id="@+id/guess_number_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/yagu_history_wrapper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -50,10 +45,10 @@
             android:hint="0123"
             android:importantForAutofill="no"
             android:inputType="number"
-            android:maxLength="4"
             tools:ignore="HardcodedText" />
 
         <Button
+            android:id="@+id/check_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onGuessOrConfirm"
